@@ -1,0 +1,1 @@
+add_mlir_dialect_doc(LinearSolver LinearSolverDialect LinearSolver/)
