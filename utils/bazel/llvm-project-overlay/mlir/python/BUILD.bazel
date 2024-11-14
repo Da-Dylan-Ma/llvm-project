@@ -671,6 +671,37 @@ filegroup(
 )
 
 ##---------------------------------------------------------------------------##
+# LinearSolver dialect.
+##---------------------------------------------------------------------------##
+
+gentbl_filegroup(
+    name = "LinearSolverOpsPyGen",
+    tbl_outs = [
+        (
+            [
+                "-gen-python-op-bindings",
+                "-bind-dialect=linear_solver",
+            ],
+            "mlir/dialects/_linear_solver_ops_gen.py",
+        ),
+    ],
+    tblgen = "//mlir:mlir-tblgen",
+    td_file = "mlir/dialects/LinearSolverOps.td",
+    deps = [
+        "//mlir:LinearSolverOpsTdFiles",
+        "//mlir:OpBaseTdFiles",
+    ],
+)
+
+filegroup(
+    name = "LinearSolverOpsPyFiles",
+    srcs = [
+        "mlir/dialects/linear_solver.py",
+        ":LinearSolverOpsPyGen",
+    ],
+)
+
+##---------------------------------------------------------------------------##
 # OpenMP dialect.
 ##---------------------------------------------------------------------------##
 

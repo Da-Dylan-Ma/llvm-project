@@ -1,2 +1,2 @@
-add_mlir_dialect(LinearSolverOps LinearSolverDialect)
-add_mlir_doc(LinearSolverDialect LinearSolverDialect Dialects/LinearSolver mlir/include/mlir)
+add_subdirectory(IR)
+add_subdirectory(Transforms)

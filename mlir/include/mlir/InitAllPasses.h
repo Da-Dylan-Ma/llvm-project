@@ -29,6 +29,7 @@
 #include "mlir/Dialect/GPU/Transforms/Passes.h"
 #include "mlir/Dialect/LLVMIR/Transforms/Passes.h"
 #include "mlir/Dialect/Linalg/Passes.h"
+#include "mlir/Dialect/LinearSolver/Transforms/Passes.h"
 #include "mlir/Dialect/MLProgram/Transforms/Passes.h"
 #include "mlir/Dialect/Math/Transforms/Passes.h"
 #include "mlir/Dialect/MemRef/Transforms/Passes.h"
@@ -82,6 +83,7 @@ inline void registerAllPasses() {
   math::registerMathPasses();
   memref::registerMemRefPasses();
   mesh::registerMeshPasses();
+  linear_solver::registerLinearSolverPasses();
   ml_program::registerMLProgramPasses();
   quant::registerQuantPasses();
   registerSCFPasses();

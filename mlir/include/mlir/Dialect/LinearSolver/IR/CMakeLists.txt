@@ -1,0 +1,15 @@
+set(LLVM_TARGET_DEFINITIONS LinearSolverOps.td)
+add_mlir_dialect(LinearSolverOps linear_solver)
+add_mlir_doc(LinearSolverOps LinearSolverOps Dialects/ -gen-dialect-doc)
+
+set(LLVM_TARGET_DEFINITIONS LinearSolverAttributes.td)
+mlir_tablegen(LinearSolverAttributes.h.inc -gen-attrdef-decls)
+mlir_tablegen(LinearSolverAttributes.cpp.inc -gen-attrdef-defs)
+add_public_tablegen_target(MLIRLinearSolverAttributesIncGen)
+add_dependencies(mlir-headers MLIRLinearSolverAttributesIncGen)
+
+set(LLVM_TARGET_DEFINITIONS LinearSolverTypes.td)
+mlir_tablegen(LinearSolverTypes.h.inc -gen-typedef-decls)
+mlir_tablegen(LinearSolverTypes.cpp.inc -gen-typedef-defs)
+add_public_tablegen_target(MLIRLinearSolverTypesIncGen)
+add_dependencies(mlir-headers MLIRLinearSolverTypesIncGen)

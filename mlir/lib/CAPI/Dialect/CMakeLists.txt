@@ -105,6 +105,15 @@ add_mlir_upstream_c_api_library(MLIRCAPILinalg
   MLIRLinalgTransforms
 )
 
+add_mlir_upstream_c_api_library(MLIRCAPILinearSolver
+  LinearSolver.cpp
+
+  PARTIAL_SOURCES_INTENDED
+  LINK_LIBS PUBLIC
+  MLIRCAPIIR
+  MLIRLinearSolverDialect
+)
+
 add_mlir_upstream_c_api_library(MLIRCAPIMLProgram
   MLProgram.cpp
 
