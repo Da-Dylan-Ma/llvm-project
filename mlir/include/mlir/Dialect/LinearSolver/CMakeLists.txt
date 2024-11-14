@@ -1,1 +1,2 @@
-add_mlir_dialect_doc(LinearSolver LinearSolverDialect LinearSolver/)
+add_mlir_dialect(LinearSolverOps LinearSolverDialect)
+add_mlir_doc(LinearSolverDialect LinearSolverDialect Dialects/LinearSolver mlir/include/mlir)
