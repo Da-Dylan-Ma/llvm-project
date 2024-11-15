@@ -28,6 +28,34 @@ int main(int argc, char **argv) {
   // will be *parsed* by the tool, not the one generated
   // registerAllDialects(registry);
 
+  mlir::MLIRContext context(registry);
+  mlir::PassManager pm(&context);
+
+  llvm::cl::opt<std::string> pipelineOption(
+      "pipeline",
+      llvm::cl::desc("Select pipeline to run (options: forward, backward, lu, ilu, cholesky)"),
+      llvm::cl::init(""));
+
+  if (pipelineOption == "forward")
+      mlir::linearsolver::registerForwardSubstitutionPipeline(pm);
+  else if (pipelineOption == "backward")
+      mlir::linearsolver::registerBackwardSubstitutionPipeline(pm);
+  else if (pipelineOption == "lu")
+      mlir::linearsolver::registerLUFactorizationPipeline(pm);
+  else if (pipelineOption == "ilu")
+      mlir::linearsolver::registerILUFactorizationPipeline(pm);
+  else if (pipelineOption == "cholesky")
+      mlir::linearsolver::registerCholeskyDecompositionPipeline(pm);
+  else {
+      llvm::errs() << "Invalid pipeline option\n";
+      return 1;
+  }
+
+  if (failed(pm.run(module))) {
+      llvm::errs() << "Pipeline failed.\n";
+      return 1;
+  }
+
   return mlir::asMainReturnCode(
       mlir::MlirOptMain(argc, argv, "LinearSolver optimizer driver\n", registry));
 }

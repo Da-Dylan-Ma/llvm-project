@@ -20,6 +20,13 @@ namespace linearsolver {
 
 #define GEN_PASS_REGISTRATION
 #include "LinearSolver/LinearSolverPasses.h.inc"
+
+void registerForwardSubstitutionPipeline(mlir::OpPassManager &pm);
+void registerBackwardSubstitutionPipeline(mlir::OpPassManager &pm);
+void registerLUFactorizationPipeline(mlir::OpPassManager &pm);
+void registerILUFactorizationPipeline(mlir::OpPassManager &pm);
+void registerCholeskyDecompositionPipeline(mlir::OpPassManager &pm);
+
 } // namespace linearsolver
 } // namespace mlir
 

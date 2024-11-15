@@ -12,6 +12,11 @@
 
 #include "LinearSolver/LinearSolverPasses.h"
 
+#include "mlir/Pass/Pass.h"
+#include "mlir/Dialect/Linalg/Transforms/Passes.h"
+#include "mlir/Dialect/SCF/Transforms/Passes.h"
+#include "mlir/Transforms/Passes.h"
+
 namespace mlir::linearsolver {
 #define GEN_PASS_DEF_LINEARSOLVERSWITCHBARFOO
 #include "LinearSolver/LinearSolverPasses.h.inc"
@@ -43,5 +48,39 @@ public:
       signalPassFailure();
   }
 };
+
+void registerForwardSubstitutionPipeline(OpPassManager &pm) {
+    pm.addPass(createCanonicalizerPass());
+    pm.addPass(createCSEPass());
+    pm.addPass(createLinalgTilingPass());
+    pm.addPass(createLoopUnrollPass());
+}
+
+void registerBackwardSubstitutionPipeline(OpPassManager &pm) {
+    pm.addPass(createCanonicalizerPass());
+    pm.addPass(scf::createForLoopPeelingPass());
+    pm.addPass(createLinalgBufferizePass());
+}
+
+void registerLUFactorizationPipeline(OpPassManager &pm) {
+    pm.addPass(createCanonicalizerPass());
+    pm.addPass(createCSEPass());
+    pm.addPass(createLinalgTilingPass());
+    pm.addPass(createLinalgFoldUnitExtentDimsPass());
+}
+
+void registerILUFactorizationPipeline(OpPassManager &pm) {
+    pm.addPass(createCanonicalizerPass());
+    pm.addPass(createCSEPass());
+    pm.addPass(createLoopUnrollPass());
+}
+
+void registerCholeskyDecompositionPipeline(OpPassManager &pm) {
+    pm.addPass(createCanonicalizerPass());
+    pm.addPass(createLinalgBufferizePass());
+    pm.addPass(createLoopUnrollPass());
+    pm.addPass(createLinalgTilingPass());
+}
+
 } // namespace
 } // namespace mlir::linearsolver
